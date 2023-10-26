@@ -62,4 +62,4 @@ easyDrag(HTMLElement, {
 
 ## License
 
-EasyDrag is licensed under the [MIT license](github.com/Huucat/easy-drag/blob/main/LICENSE)
+EasyDrag is licensed under the [MIT license](https://github.com/Huucat/easy-drag/blob/main/LICENSE)
