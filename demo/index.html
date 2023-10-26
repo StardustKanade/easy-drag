@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图片点击拖拽</title>
+    <script src="./easyDrag.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #container0,
+      #container1 {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        list-style-type: none;
+        padding: 0;
+        font-size: 0;
+        margin-top: 50px;
+      }
+
+      .item {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        font-size: 2rem;
+        color: #fff;
+        text-align: center;
+        background-color: rgb(255, 123, 22);
+      }
+
+      .item img {
+        width: 100%;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="container0">
+      <li class="item">1</li>
+      <li class="item">2</li>
+      <li class="item">3</li>
+      <li class="item">4</li>
+      <li class="item">5</li>
+      <li class="item">6</li>
+    </ul>
+
+    <ul id="container1">
+      <li class="item"><img src="./images/1.jpg" alt="" srcset="" /></li>
+      <li class="item"><img src="./images/2.jpg" alt="" srcset="" /></li>
+      <li class="item"><img src="./images/3.jpg" alt="" srcset="" /></li>
+    </ul>
+
+    <script>
+      const container0 = document.querySelector("#container0");
+      const container1 = document.querySelector("#container1");
+
+      easyDrag(container0, {
+        time: 200,
+      });
+
+      easyDrag(container1, {
+        time: 200,
+      });
+    </script>
+  </body>
+</html>
