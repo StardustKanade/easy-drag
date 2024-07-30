@@ -33,18 +33,18 @@ export default function EasyDrag(
     };
   }
 
-  function init() {
+  const init = () => {
     setDraggable();
     addListener();
-  }
+  };
 
-  function setDraggable() {
+  const setDraggable = () => {
     Array.from(container.children).forEach((childrenElement) => {
       childrenElement.setAttribute("draggable", "true");
     });
-  }
+  };
 
-  function addListener() {
+  const addListener = () => {
     if (isMobileDevice()) {
       container.addEventListener("touchstart", onTouchStart, {
         passive: false,
@@ -58,9 +58,9 @@ export default function EasyDrag(
       container.addEventListener("dragenter", onDragEnter);
       container.addEventListener("dragend", onDragend);
     }
-  }
+  };
 
-  function onDragStart(event: DragEvent) {
+  const onDragStart = (event: DragEvent) => {
     let _dragElement = event.target as HTMLElement | null;
 
     if (_dragElement === container) return;
@@ -80,9 +80,9 @@ export default function EasyDrag(
     }
 
     dragElement = _dragElement;
-  }
+  };
 
-  function onDragEnter(event: DragEvent) {
+  const onDragEnter = (event: DragEvent) => {
     event.preventDefault();
     let targetElement = event.target as HTMLElement;
 
@@ -110,14 +110,14 @@ export default function EasyDrag(
       return;
 
     moveElement(targetElement);
-  }
+  };
 
-  function onDragend(event: DragEvent) {
+  const onDragend = (event: DragEvent) => {
     event.preventDefault();
     dragElement = null;
-  }
+  };
 
-  function onTouchStart(event: TouchEvent) {
+  const onTouchStart = (event: TouchEvent) => {
     let _dragElement = event.touches[0].target as HTMLElement;
 
     if (_dragElement === container) return;
@@ -135,9 +135,9 @@ export default function EasyDrag(
     cloneElement.removeAttribute("style");
 
     setCloneStyle(event);
-  }
+  };
 
-  function onTouchMove(event: TouchEvent) {
+  const onTouchMove = async (event: TouchEvent) => {
     event.preventDefault();
     if (!cloneElement) return;
 
@@ -147,7 +147,8 @@ export default function EasyDrag(
 
     cloneElement.style.left = x - offset.x + "px";
     cloneElement.style.top = y - offset.y + "px";
-    cloneElement.offsetLeft;
+
+    await reRender();
 
     let targetElement = document.elementFromPoint(x, y) as HTMLElement;
 
@@ -175,9 +176,9 @@ export default function EasyDrag(
       return;
 
     moveElement(targetElement);
-  }
+  };
 
-  function onTouchEnd() {
+  const onTouchEnd = () => {
     dragElement = null;
     if (cloneElement) {
       cloneElement.remove();
@@ -185,9 +186,9 @@ export default function EasyDrag(
       offset.x = 0;
       offset.y = 0;
     }
-  }
+  };
 
-  function moveElement(targetElement: HTMLElement) {
+  const moveElement = (targetElement: HTMLElement) => {
     if (!dragElement) return;
 
     const minIndex = Math.min(getIndex(dragElement), getIndex(targetElement));
@@ -210,16 +211,16 @@ export default function EasyDrag(
     if (options.time > 0) {
       setTransition(oldElementList, minIndex, maxIndex);
     }
-  }
+  };
 
-  function setTransition(
+  const setTransition = (
     oldElementList: ElementRectObject[],
     minIndex: number,
     maxIndex: number
-  ) {
+  ) => {
     Array.from(container.children)
       .slice(minIndex, maxIndex)
-      .forEach((_element) => {
+      .forEach(async (_element) => {
         const element = _element as HTMLElement;
         const newElementRect = element.getBoundingClientRect();
         const oldElement = oldElementList.find(
@@ -236,7 +237,7 @@ export default function EasyDrag(
             (oldElement.rect.top - newElementRect.top) +
             "px,0)";
 
-          element.offsetWidth;
+          await reRender();
 
           element.style.transition = `all ${options.time}ms ease`;
           element.style.transform = "translate3d(0, 0, 0)";
@@ -245,9 +246,9 @@ export default function EasyDrag(
           element.addEventListener("transitionend", clearStyle);
         }
       });
-  }
+  };
 
-  function setCloneStyle(event: TouchEvent) {
+  const setCloneStyle = (event: TouchEvent) => {
     if (!dragElement || !cloneElement) return;
 
     offset.x = event.touches[0].clientX - dragElement.offsetLeft;
@@ -261,25 +262,31 @@ export default function EasyDrag(
     cloneElement.style.top = dragElement.offsetTop + "px";
 
     container.appendChild(cloneElement);
-  }
+  };
 
-  function clearStyle(event: TransitionEvent) {
+  const clearStyle = (event: TransitionEvent) => {
     const target = event.target as HTMLElement;
     if (target) {
       target.removeAttribute("move");
       target.removeAttribute("style");
       target.removeEventListener("transitionend", clearStyle);
     }
-  }
+  };
 
-  function getIndex(targetElement: HTMLElement) {
+  const getIndex = (targetElement: HTMLElement) => {
     if (!targetElement) return -1;
 
     const elementList = Array.from(container.children);
     const index = elementList.indexOf(targetElement);
 
     return index;
-  }
+  };
+
+  const reRender = () => {
+    return new Promise((resolve: FrameRequestCallback) => {
+      requestAnimationFrame(resolve);
+    });
+  };
 
   init();
 }
