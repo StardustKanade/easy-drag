@@ -1,13 +1,13 @@
-/**!
-* EasyDrag
-* @version 0.8.5
-* @author Huucat <https://github.com/Huucat>
-* @license MIT
-*/
+/*!
+ * easy-drag v1.0.0
+ * Author: StardustKanade
+ * License: MIT
+ * Website: https://github.com/StardustKanade/easy-drag#readme
+ */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.easyDrag = factory());
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.EasyDrag = factory());
 })(this, (function () { 'use strict';
 
     /******************************************************************************
@@ -24,7 +24,7 @@
     OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
     PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
-    /* global Reflect, Promise, SuppressedError, Symbol */
+    /* global Reflect, Promise, SuppressedError, Symbol, Iterator */
 
 
     var __assign = function() {
@@ -49,8 +49,8 @@
     }
 
     function __generator(thisArg, body) {
-        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+        return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
         function verb(n) { return function (v) { return step([n, v]); }; }
         function step(op) {
             if (f) throw new TypeError("Generator is already executing.");
@@ -103,9 +103,7 @@
         else {
             throw new Error("Error in parameter 1: Please provide an Element");
         }
-        if (typeof _options === "object" &&
-            _options !== null &&
-            _options.constructor === Object) {
+        if (typeof _options === "object" && _options !== null && _options.constructor === Object) {
             options = __assign(__assign({}, options), _options);
         }
         var init = function () {
@@ -142,6 +140,7 @@
                 _dragElement.getAttribute("draggable") !== "true") {
                 _dragElement = _dragElement.parentElement;
             }
+            // firefox设置setData后元素才能拖动，名称不能为text，否则会打开新tab
             if (event.dataTransfer && _dragElement) {
                 event.dataTransfer.setData("content", _dragElement.innerText);
                 event.dataTransfer.effectAllowed = "move";
@@ -162,8 +161,7 @@
                 targetElement !== container) {
                 targetElement = targetElement.parentElement;
             }
-            if (dragElement === targetElement ||
-                (targetElement === null || targetElement === void 0 ? void 0 : targetElement.getAttribute("move")) === "true")
+            if (dragElement === targetElement || (targetElement === null || targetElement === void 0 ? void 0 : targetElement.getAttribute("move")) === "true")
                 return;
             moveElement(targetElement);
         };
@@ -175,8 +173,7 @@
             var _dragElement = event.touches[0].target;
             if (_dragElement === container)
                 return;
-            while (_dragElement.getAttribute("draggable") !== "true" &&
-                _dragElement.parentElement) {
+            while (_dragElement.getAttribute("draggable") !== "true" && _dragElement.parentElement) {
                 _dragElement = _dragElement.parentElement;
             }
             dragElement = _dragElement;
@@ -191,20 +188,20 @@
                     case 0:
                         event.preventDefault();
                         if (!cloneElement)
-                            return [2];
+                            return [2 /*return*/];
                         touch = event.touches[0];
                         x = touch.clientX;
                         y = touch.clientY;
                         cloneElement.style.left = x - offset.x + "px";
                         cloneElement.style.top = y - offset.y + "px";
-                        return [4, reRender()];
+                        return [4 /*yield*/, reRender()];
                     case 1:
                         _a.sent();
                         targetElement = document.elementFromPoint(x, y);
                         if (!container.contains(dragElement) ||
                             !container.contains(targetElement) ||
                             container === targetElement) {
-                            return [2];
+                            return [2 /*return*/];
                         }
                         while (targetElement &&
                             targetElement.parentElement &&
@@ -212,11 +209,10 @@
                             targetElement !== container) {
                             targetElement = targetElement.parentElement;
                         }
-                        if (dragElement === targetElement ||
-                            targetElement.getAttribute("move") === "true")
-                            return [2];
+                        if (dragElement === targetElement || targetElement.getAttribute("move") === "true")
+                            return [2 /*return*/];
                         moveElement(targetElement);
-                        return [2];
+                        return [2 /*return*/];
                 }
             });
         }); };
@@ -261,7 +257,7 @@
                             element = _element;
                             newElementRect = element.getBoundingClientRect();
                             oldElement = oldElementList.find(function (beforeElement) { return element === beforeElement.element; });
-                            if (!oldElement) return [3, 2];
+                            if (!oldElement) return [3 /*break*/, 2];
                             if (element === dragElement)
                                 element.style.zIndex = "1";
                             element.style.transition = "none";
@@ -271,7 +267,7 @@
                                     "px," +
                                     (oldElement.rect.top - newElementRect.top) +
                                     "px,0)";
-                            return [4, reRender()];
+                            return [4 /*yield*/, reRender()];
                         case 1:
                             _a.sent();
                             element.style.transition = "all ".concat(options.time, "ms ease");
@@ -279,7 +275,7 @@
                             element.setAttribute("move", "true");
                             element.addEventListener("transitionend", clearStyle);
                             _a.label = 2;
-                        case 2: return [2];
+                        case 2: return [2 /*return*/];
                     }
                 });
             }); });

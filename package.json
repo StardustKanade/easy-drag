@@ -1,18 +1,21 @@
 {
   "name": "easy-drag",
-  "version": "0.8.5",
+  "version": "1.0.0",
   "description": "A Simple JavaScript Library for Implementing Drag-and-Drop Sorting Functionality.",
-  "main": "./src/EasyDrag.ts",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.js && rollup -c rollup.config.js --environment MIN && rollup -c rollup.config.js --environment ES",
-    "build:umd": "rollup -c rollup.config.js && rollup -c rollup.config.js --environment MIN",
-    "build:es": "rollup -c rollup.config.js --environment ES"
+  "author": "StardustKanade",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "bugs": {
+    "url": "https://github.com/StardustKanade/easy-drag/issues"
   },
+  "homepage": "https://github.com/StardustKanade/easy-drag#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Huucat/easy-drag.git"
+    "url": "git+https://github.com/StardustKanade/easy-drag.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
   },
   "keywords": [
     "easydrag",
@@ -21,16 +24,10 @@
     "sort",
     "javascript"
   ],
-  "author": "Huucat",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Huucat/easy-drag/issues"
-  },
-  "homepage": "https://github.com/Huucat/easy-drag#readme",
   "devDependencies": {
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-terser": "^0.4.3",
-    "@rollup/plugin-typescript": "^11.1.4",
-    "rollup": "^3.29.3"
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup": "^4.41.1",
+    "tslib": "^2.8.1"
   }
 }

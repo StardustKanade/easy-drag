@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>图片点击拖拽</title>
-    <script src="./easyDrag.min.js"></script>
+    <script src="./easy-drag.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -62,13 +62,8 @@
       const container0 = document.querySelector("#container0");
       const container1 = document.querySelector("#container1");
 
-      easyDrag(container0, {
-        time: 200,
-      });
-
-      easyDrag(container1, {
-        time: 200,
-      });
+      new EasyDrag(container0);
+      new EasyDrag(container1);
     </script>
   </body>
 </html>

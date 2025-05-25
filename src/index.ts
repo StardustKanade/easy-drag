@@ -1,10 +1,7 @@
-import { EasyDragOptions, ElementRectObject } from "./EasyDrag.d";
+import { EasyDragOptions, ElementRectObject } from "./index.d";
 import { isMobileDevice } from "./utils/index";
 
-export default function EasyDrag(
-  _container: HTMLElement,
-  _options?: EasyDragOptions
-) {
+export default function EasyDrag(_container: HTMLElement, _options?: EasyDragOptions) {
   let container: HTMLElement = _container;
   let dragElement: HTMLElement | null = null;
   let cloneElement: HTMLElement | null = null;
@@ -22,11 +19,7 @@ export default function EasyDrag(
     throw new Error("Error in parameter 1: Please provide an Element");
   }
 
-  if (
-    typeof _options === "object" &&
-    _options !== null &&
-    _options.constructor === Object
-  ) {
+  if (typeof _options === "object" && _options !== null && _options.constructor === Object) {
     options = {
       ...options,
       ..._options,
@@ -103,11 +96,7 @@ export default function EasyDrag(
       targetElement = targetElement.parentElement;
     }
 
-    if (
-      dragElement === targetElement ||
-      targetElement?.getAttribute("move") === "true"
-    )
-      return;
+    if (dragElement === targetElement || targetElement?.getAttribute("move") === "true") return;
 
     moveElement(targetElement);
   };
@@ -122,10 +111,7 @@ export default function EasyDrag(
 
     if (_dragElement === container) return;
 
-    while (
-      _dragElement.getAttribute("draggable") !== "true" &&
-      _dragElement.parentElement
-    ) {
+    while (_dragElement.getAttribute("draggable") !== "true" && _dragElement.parentElement) {
       _dragElement = _dragElement.parentElement;
     }
 
@@ -169,11 +155,7 @@ export default function EasyDrag(
       targetElement = targetElement.parentElement;
     }
 
-    if (
-      dragElement === targetElement ||
-      targetElement.getAttribute("move") === "true"
-    )
-      return;
+    if (dragElement === targetElement || targetElement.getAttribute("move") === "true") return;
 
     moveElement(targetElement);
   };
@@ -192,8 +174,7 @@ export default function EasyDrag(
     if (!dragElement) return;
 
     const minIndex = Math.min(getIndex(dragElement), getIndex(targetElement));
-    const maxIndex =
-      Math.max(getIndex(dragElement), getIndex(targetElement)) + 1;
+    const maxIndex = Math.max(getIndex(dragElement), getIndex(targetElement)) + 1;
 
     const oldElementList: ElementRectObject[] = Array.from(container.children)
       .slice(minIndex, maxIndex)

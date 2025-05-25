@@ -1,34 +1,45 @@
-import banner from "./banner.js";
 import typescript from "@rollup/plugin-typescript";
-import json from "@rollup/plugin-json";
 import terser from "@rollup/plugin-terser";
+import { readFileSync } from "fs";
 
-let format, file;
-
-if (process.env?.ES === "true") {
-  format = "es";
-  file = "dist/es/easyDrag.js";
-} else {
-  format = "umd";
-  if (process.env?.MIN === "true") {
-    file = "dist/umd/easyDrag.min.js";
-  } else {
-    file = "dist/umd/easyDrag.js";
-  }
-}
-
-const plugins =
-  process.env.MIN === "true"
-    ? [typescript(), json(), terser()]
-    : [typescript(), json()];
+const pkg = JSON.parse(readFileSync("./package.json", "utf-8"));
+const banner = `/*!
+ * ${pkg.name} v${pkg.version}
+ * Author: ${pkg.author}
+ * License: ${pkg.license}
+ * Website: ${pkg.homepage}
+ */`;
 
 export default {
-  input: "src/easyDrag.ts",
-  output: {
-    banner,
-    file,
-    format,
-    name: "easyDrag",
-  },
-  plugins: plugins,
+  input: "src/index.ts",
+  output: [
+    {
+      file: "dist/easy-drag.es.js",
+      format: "es",
+      name: "EasyDrag",
+      banner,
+    },
+    {
+      file: "dist/easy-drag.es.min.js",
+      format: "es",
+      name: "EasyDrag",
+      plugins: [terser()],
+      banner,
+    },
+    {
+      file: "dist/easy-drag.js",
+      format: "umd",
+      name: "EasyDrag",
+      banner,
+    },
+    {
+      file: "dist/easy-drag.min.js",
+      format: "umd",
+      name: "EasyDrag",
+      plugins: [terser()],
+      banner,
+    },
+  ],
+  plugins: [typescript()],
+  external: [],
 };
